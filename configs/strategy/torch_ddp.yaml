@@ -1,0 +1,5 @@
+target: torch_ddp
+init_method: env://
+backend: nccl
+find_unused_params: false
+broadcast_buffers: true

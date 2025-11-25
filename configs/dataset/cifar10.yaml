@@ -1,0 +1,9 @@
+target: cifar10_torch
+root: ~/.cache/cifar10
+split: train
+num_workers: 8
+pin_memory: true
+shuffle: true
+augment:
+  random_crop: true
+  random_flip: true

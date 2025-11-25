@@ -1,0 +1,15 @@
+experiment_name: quantom_ips_ddp
+output_dir: logs/quantom_ips_ddp
+
+app_cfg:
+  target: quantom_ips
+  module: quantom_ips.drivers.training_workflow
+  launcher: torchrun
+  nproc_per_node: 4
+  vendor: applications
+
+  hydra_overrides:
+    environment.parser.path:
+      - applications/quantom-ips/data/data.npy
+    device: cuda
+    dtype: float32

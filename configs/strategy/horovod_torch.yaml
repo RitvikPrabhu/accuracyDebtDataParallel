@@ -1,0 +1,4 @@
+target: horovod_torch
+allreduce: average
+fusion_threshold_mb: 64
+cycle_time_ms: 5

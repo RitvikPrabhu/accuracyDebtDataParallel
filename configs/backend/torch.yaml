@@ -1,0 +1,5 @@
+target: torch_backend
+device: cuda          
+compile: false        
+cudnn_benchmark: true
+set_float32_matmul_precision: medium

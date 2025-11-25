@@ -1,0 +1,2 @@
+target: tf_distribute
+strategy: mirrored  # or multiworker_mirrored, parameter_server

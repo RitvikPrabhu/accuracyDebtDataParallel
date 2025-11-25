@@ -1,0 +1,38 @@
+# include default then override (simple duplication for portability)
+experiment_name: r50_cifar10_ddp
+output_dir: logs/${experiment_name}
+seed: 1337
+num_epochs: 10
+log_interval: 50
+ckpt_interval: 1
+
+dataset_cfg: dataset/cifar10.yaml
+model_cfg: model/resnet50_torch.yaml
+strategy_cfg: strategy/torch_ddp.yaml
+backend_cfg: backend/torch.yaml
+
+logging:
+  csv: 
+    enabled: true
+    filename: metrics.csv
+  tensorboard: 
+    enabled: true, 
+    log_dir: logs/${experiment_name}
+  wandb: 
+    enabled: false
+    project: ablation-runner
+    run_name: ${experiment_name}
+
+train:
+  batch_size: 256
+  grad_accum_steps: 1
+  lr: 0.1
+  weight_decay: 1e-4
+  momentum: 0.9
+  scheduler: cos_decay
+  warmup_steps: 500
+precision: 
+  amp: true
+  dtype: float32
+repro: 
+  deterministic: false
