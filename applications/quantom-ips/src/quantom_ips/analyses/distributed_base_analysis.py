@@ -51,19 +51,10 @@ class DistributedBaseAnalysis:
         self.n_ranks = self.mpi_comm.Get_size()
         self.current_rank = self.mpi_comm.Get_rank()
 
-        # Now create directories where we want to store the results:
-        if self.current_rank == 0:
-            os.makedirs(self.logdir, exist_ok=True)
-
-            # ++++++++++++++++++++++
-            for r in range(self.n_ranks):
-                os.makedirs(
-                    self.logdir + "/model_snapshots_rank" + str(r), exist_ok=True
-                )
-                os.makedirs(
-                    self.logdir + "/model_performance_rank" + str(r), exist_ok=True
-                )
-            # ++++++++++++++++++++++
+        # Now create directories where we want to store the results (each rank ensures its own).
+        os.makedirs(self.logdir, exist_ok=True)
+        os.makedirs(self.logdir + "/model_snapshots_rank" + str(self.current_rank), exist_ok=True)
+        os.makedirs(self.logdir + "/model_performance_rank" + str(self.current_rank), exist_ok=True)
 
         self.model_snapshot_folder = (
             self.logdir + "/model_snapshots_rank" + str(self.current_rank)
