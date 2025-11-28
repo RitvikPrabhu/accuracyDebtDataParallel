@@ -33,7 +33,7 @@ class DistributedGANTrainerDefaults:
     profile_folder: str = "profiles"
     profile_name: str = "distributed_gan"
     trainer: Any = MISSING
-    n_epochs: int = 10
+    n_epochs: int = 100000
     outer_update_epochs: int = 2
     gradient_scale: float = 1.0
     gen_lr: float = 1e-5
@@ -43,7 +43,7 @@ class DistributedGANTrainerDefaults:
     disc_lr: float = 1e-4
     disc_beta_1: float = 0.5
     disc_beta_2: float = 0.999
-    batch_size: int = 10
+    batch_size: int = 1024
     torch_device: str = "cpu"
     generator_update_frequency: int = 1
     discriminator_update_frequency: int = 1

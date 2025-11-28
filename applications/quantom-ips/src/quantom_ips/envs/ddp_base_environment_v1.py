@@ -26,7 +26,7 @@ class DDPBaseEnvironmentDefaults:
     defaults: List[Any] = field(default_factory=lambda: defaults)
     id: str = "DDPBaseEnvironmentV1"
     loss_fn: str = "MSE"
-    n_samples: int = 10000
+    n_samples: int = 100
     label_noise: float = 0.0
     n_log_sad_bins: int = 100
 

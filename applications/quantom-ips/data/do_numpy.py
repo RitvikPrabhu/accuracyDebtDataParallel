@@ -168,10 +168,23 @@ if __name__ == "__main__":
         dtype=np.float64,
     )
 
-    #print(cross_section_nv(0.1, 10.0, par_u, par_d))
-    x  = np.random.rand(200)
-    Q2 = 10.0*np.random.rand(200)
-    w  = cross_section(x, Q2, par_u, par_d)
-    keep = np.random.rand(200) < (w / w.max())
-    result = np.column_stack([x[keep], Q2[keep]]).astype(np.float32)
-    np.save('data.npy', result)
+    np.random.seed(42)
+
+    TARGET_EVENTS = 204800  
+    CHUNK = 200000
+
+    collected = []
+    total = 0
+    while total < TARGET_EVENTS:
+        x = np.random.rand(CHUNK)
+        Q2 = 10.0 * np.random.rand(CHUNK)
+        w = cross_section(x, Q2, par_u, par_d)
+        keep = np.random.rand(CHUNK) < (w / w.max())
+        accepted = np.column_stack([x[keep], Q2[keep]])
+        if total + accepted.shape[0] > TARGET_EVENTS:
+            accepted = accepted[: TARGET_EVENTS - total]
+        collected.append(accepted)
+        total += accepted.shape[0]
+
+    result = np.vstack(collected).astype(np.float32)
+    np.save("data.npy", result)

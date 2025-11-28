@@ -17,7 +17,7 @@ class DistributedNumpyParserDefaults:
     path: list = MISSING
     event_axis: int = 0
     master_rank: int = 0
-    data_fraction: float = 1.0
+    data_fraction: float = 0.5
     data_size: int = -1
 
 

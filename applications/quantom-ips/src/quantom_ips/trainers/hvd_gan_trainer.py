@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class HVDGANTrainerDefaults:
     id: str = "HVDGANTrainer"
-    n_epochs: int = 10
+    n_epochs: int = 100000
     outer_update_epochs: int = 2
     gen_lr: float = 1e-5
     gen_beta_1: float = 0.5
@@ -23,7 +23,7 @@ class HVDGANTrainerDefaults:
     disc_lr: float = 1e-4
     disc_beta_1: float = 0.5
     disc_beta_2: float = 0.999
-    batch_size: int = 10
+    batch_size: int = 1024
     logdir: str = "${hydra:runtime.output_dir}"
     train_objective: bool = True
     distribute_disc: bool = False
