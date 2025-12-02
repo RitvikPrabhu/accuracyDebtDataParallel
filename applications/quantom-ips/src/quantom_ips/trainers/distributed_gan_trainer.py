@@ -33,7 +33,7 @@ class DistributedGANTrainerDefaults:
     profile_folder: str = "profiles"
     profile_name: str = "distributed_gan"
     trainer: Any = MISSING
-    n_epochs: int = 100000
+    n_epochs: int = 10000
     outer_update_epochs: int = 2
     gradient_scale: float = 1.0
     gen_lr: float = 1e-5

@@ -1,28 +1,34 @@
 #!/bin/bash
-#SBATCH -J quantom-ddp
+#SBATCH -J quantom-ddp-1node-2GPUperNode
 #SBATCH -A HPCBIGDATA
 #SBATCH -p a100_normal_q
-#SBATCH -N 2
-#SBATCH --ntasks-per-node=4        
-#SBATCH --gpus-per-node=4
-#SBATCH -t 02:00:00
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=2    
+#SBATCH --gpus-per-node=2
+#SBATCH --cpus-per-task=16     
+#SBATCH -t 10:00:00
+#SBATCH --output=outputs/slurm-%x-%j.out
 
 set -euo pipefail
 
-module load cuda/12.1
-export OMP_NUM_THREADS=${OMP_NUM_THREADS:-4}
+module load Miniconda3
+source activate /home/ritvikp/.conda/envs/quantom/
+module load CUDA/12.6.0
 
-cd /home/ritvikp/git_repos/accuracyDebt_data_parallel_DL
+cd ..
 
 DATA_PATH=${DATA_PATH:-applications/quantom-ips/data/data.npy}
 
-# Map SLURM env to torch.distributed expectations.
 export MASTER_ADDR=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
-export MASTER_PORT=${MASTER_PORT:-29500}
-export WORLD_SIZE=$SLURM_NTASKS
-export RANK=$SLURM_PROCID
-export LOCAL_RANK=$SLURM_LOCALID
+DEFAULT_PORT=$((29500 + ${SLURM_JOBID:-0} % 1000))
+export MASTER_PORT=${MASTER_PORT:-$DEFAULT_PORT}
+export OMP_NUM_THREADS=8  
 
-# One process per GPU across nodes.
-srun --mpi=pmix_v3 --gpus-per-task=1 python -m quantom_ips.drivers.ddp_training_workflow \
-  "environment.parser.path=[${DATA_PATH}]"
+srun torchrun \
+    --nproc_per_node=$SLURM_GPUS_ON_NODE \
+    --nnodes=1 \
+    --rdzv_id=$SLURM_JOB_ID \
+    --rdzv_backend=c10d \
+    --rdzv_endpoint=$MASTER_ADDR:$MASTER_PORT \
+    -m quantom_ips.drivers.ddp_training_workflow \
+    "environment.parser.path=[${DATA_PATH}]"

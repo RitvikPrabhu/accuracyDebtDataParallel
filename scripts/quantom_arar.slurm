@@ -1,18 +1,23 @@
 #!/bin/bash
-#SBATCH -J quantom-arar
+#SBATCH -J quantom-arar-1node-1GPUperNode
 #SBATCH -A HPCBIGDATA
 #SBATCH -p a100_normal_q
-#SBATCH -N 2
-#SBATCH --ntasks-per-node=4        # 1 task per GPU
-#SBATCH --gpus-per-node=4
-#SBATCH -t 02:00:00
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1        
+#SBATCH --gpus-per-node=1
+#SBATCH -t 10:00:00
+#SBATCH --output=outputs/slurm-%x-%j.out
+
 
 set -euo pipefail
 
-module load cuda/12.1
-export OMP_NUM_THREADS=${OMP_NUM_THREADS:-4}
+module load Miniconda3
+source activate /home/ritvikp/.conda/envs/quantom/
 
-cd /home/ritvikp/git_repos/accuracyDebt_data_parallel_DL
+module load OpenMPI
+module load CUDA/12.6.0
+
+cd ..
 
 DATA_PATH=${DATA_PATH:-applications/quantom-ips/data/data.npy}
 

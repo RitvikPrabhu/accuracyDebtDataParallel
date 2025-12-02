@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class DDPGANTrainerDefaults:
     id: str = "DDPGANTrainer"
-    n_epochs: int = 100000
+    n_epochs: int = 10000
     outer_update_epochs: int = 2
     gen_lr: float = 1e-5
     gen_beta_1: float = 0.5

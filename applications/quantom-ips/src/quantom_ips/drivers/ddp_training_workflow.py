@@ -37,6 +37,7 @@ defaults = [
     {"environment": "ddp_base"},
     {"optimizer": "conv2D_v2"},
     {"analysis": "ddp_base_analysis"},
+    {"hydra/run": "scratch_run_dir"},
     "_self_",
 ]
 
@@ -53,6 +54,11 @@ class DDPGANWorkflow:
 
 cs = ConfigStore.instance()
 cs.store(name="ddp_gan_workflow", node=DDPGANWorkflow)
+cs.store(
+    group="hydra/run",
+    name="scratch_run_dir",
+    node={"dir": "/scratch/ritvik_quantom_outputs/${now:%Y-%m-%d}_DDP/${now:%H-%M-%S}"},
+)
 
 
 def get_dtype(dtype_str):

@@ -36,6 +36,7 @@ defaults = [
     {"environment": "distributed_base"},
     {"optimizer": "conv2D_v2"},
     {"analysis": "distributed_base_analysis"},
+    {"hydra/run": "scratch_run_dir"},
     "_self_",
 ]
 
@@ -52,6 +53,11 @@ class DistributedGANWorkflow:
 
 cs = ConfigStore.instance()
 cs.store(name="distributed_gan_workflow", node=DistributedGANWorkflow)
+cs.store(
+    group="hydra/run",
+    name="scratch_run_dir",
+    node={"dir": "/scratch/ritvik_quantom_outputs/${now:%Y-%m-%d}_ARAR/${now:%H-%M-%S}"},
+)
 
 
 @hydra.main(version_base=None, config_name="distributed_gan_workflow")
