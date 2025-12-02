@@ -95,7 +95,8 @@ class HVDDistributedNumpyParser:
         if new_size >= old_size:
             return tensor_data
 
-        idx = torch.randperm(old_size, device=tensor_data.device)[:new_size]
+        np_idx = np.random.choice(old_size, new_size, replace=False)
+        idx = torch.as_tensor(np_idx, device=tensor_data.device)
         sampled = tensor_data.index_select(self.data_axis, idx)
 
         return sampled
