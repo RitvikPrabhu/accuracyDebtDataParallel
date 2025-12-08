@@ -1,1 +1,38 @@
-hello
+Traceback (most recent call last):
+  File "/projects/synergy_lab/ritvik/accuracyDebtDataParallel/applications/quantom-ips/src/quantom_ips/drivers/distributed_training_workflow.py", line 107, in run
+    trainer.run(opt, env, analysis)
+  File "/projects/synergy_lab/ritvik/accuracyDebtDataParallel/applications/quantom-ips/src/quantom_ips/trainers/distributed_gan_trainer.py", line 358, in run
+    run_with_profiler()
+  File "/projects/synergy_lab/ritvik/accuracyDebtDataParallel/applications/quantom-ips/src/quantom_ips/trainers/distributed_gan_trainer.py", line 242, in wrap_f
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/projects/synergy_lab/ritvik/accuracyDebtDataParallel/applications/quantom-ips/src/quantom_ips/trainers/distributed_gan_trainer.py", line 317, in run_with_profiler
+    current_results = self.train_step(
+                      ^^^^^^^^^^^^^^^^
+  File "/projects/synergy_lab/ritvik/accuracyDebtDataParallel/applications/quantom-ips/src/quantom_ips/trainers/distributed_gan_trainer.py", line 163, in train_step
+    env_out, env_step_footprint = mon_gpu_usage(
+                                  ^^^^^^^^^^^^^^
+  File "/projects/synergy_lab/ritvik/accuracyDebtDataParallel/applications/quantom-ips/src/quantom_ips/utils/monitors/gpu_performance_monitor.py", line 45, in decorator
+    result = func(*arg, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/projects/synergy_lab/ritvik/accuracyDebtDataParallel/applications/quantom-ips/src/quantom_ips/envs/distributed_base_environment_v1.py", line 101, in step
+    probabilities, grid_axes, theory_loss = self.theory.forward(params)
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/projects/synergy_lab/ritvik/accuracyDebtDataParallel/applications/quantom-ips/src/quantom_ips/envs/theories/proxy2d_theory.py", line 79, in forward
+    x_secs = torch.vmap(self.linear_combination,in_dims=0)(A)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ritvikp/.conda/envs/quantom/lib/python3.11/site-packages/torch/_functorch/apis.py", line 208, in wrapped
+    return vmap_impl(
+           ^^^^^^^^^^
+  File "/home/ritvikp/.conda/envs/quantom/lib/python3.11/site-packages/torch/_functorch/vmap.py", line 283, in vmap_impl
+    return _flat_vmap(
+           ^^^^^^^^^^^
+  File "/home/ritvikp/.conda/envs/quantom/lib/python3.11/site-packages/torch/_functorch/vmap.py", line 433, in _flat_vmap
+    batched_outputs = func(*batched_inputs, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/projects/synergy_lab/ritvik/accuracyDebtDataParallel/applications/quantom-ips/src/quantom_ips/envs/theories/proxy2d_theory.py", line 52, in linear_combination
+    A_1 = A[1]*(self.a_max[1] - self.a_min[1]) + self.a_min[1]
+          ~^^^
+IndexError: index 1 is out of bounds for dimension 0 with size 1
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.

@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH -J quantom-ddp-1node-2GPUperNode
+#SBATCH -J quantom-ddp-1node-4GPUperNode
 #SBATCH -A HPCBIGDATA
-#SBATCH -p a100_normal_q
+#SBATCH -p a30_normal_q
 #SBATCH -N 1
-#SBATCH --ntasks-per-node=2    
-#SBATCH --gpus-per-node=2
+#SBATCH --ntasks-per-node=4    
+#SBATCH --gpus-per-node=4
 #SBATCH --cpus-per-task=16     
 #SBATCH -t 10:00:00
 #SBATCH --output=outputs/slurm-%x-%j.out
@@ -26,9 +26,9 @@ export OMP_NUM_THREADS=8
 
 srun torchrun \
     --nproc_per_node=$SLURM_GPUS_ON_NODE \
-    --nnodes=1 \
-    --rdzv_id=$SLURM_JOB_ID \
-    --rdzv_backend=c10d \
-    --rdzv_endpoint=$MASTER_ADDR:$MASTER_PORT \
-    -m quantom_ips.drivers.ddp_training_workflow \
-    "environment.parser.path=[${DATA_PATH}]"
+        --nnodes=1 \
+            --rdzv_id=$SLURM_JOB_ID \
+                --rdzv_backend=c10d \
+                    --rdzv_endpoint=$MASTER_ADDR:$MASTER_PORT \
+                        -m quantom_ips.drivers.ddp_training_workflow \
+                            "environment.parser.path=[${DATA_PATH}]"

@@ -24,7 +24,7 @@ class DDPGANTrainerDefaults:
     disc_lr: float = 1e-4
     disc_beta_1: float = 0.5
     disc_beta_2: float = 0.999
-    batch_size: int = 1024
+    batch_size: int = 1
     logdir: str = "${hydra:runtime.output_dir}"
     train_objective: bool = True
     distribute_disc: bool = False
@@ -190,6 +190,9 @@ class DDPGANTrainer:
                 if self.config.train_objective and self.distribute_disc:
                     self._outer_sync_module(self.discriminator)
             if self.rank == 0:
+                logger.info(
+                    " | ".join([f"Epoch: {epoch}"] + [f"{k}: {v}" for k, v in metrics.items()])
+                )
                 analysis.forward(
                     self.opt,
                     epoch=epoch,

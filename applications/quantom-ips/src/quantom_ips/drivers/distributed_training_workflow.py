@@ -19,6 +19,8 @@ from quantom_ips.envs.sample_transformers.identity import IdentitySampleTransfor
 from quantom_ips.envs.samplers.loits_2d import LOInverseTransformSampler2D
 from quantom_ips.envs.samplers.loits_1d import LOInverseTransformSampler1D
 from quantom_ips.envs.theories.identity import IdentityTheory
+from quantom_ips.envs.theories.proxy2d_theory import Proxy2DTheory
+from quantom_ips.envs.theories.duke_and_owens_theory import DukeAndOwensTheory
 from quantom_ips.optimizers.proxy_optimizer import ProxyOptimizer
 from quantom_ips.optimizers.conv2dtranspose_optimizer_v2 import (
     Conv2DTransposeOptimizerV2,
@@ -34,7 +36,7 @@ logger = logging.getLogger("gan_training_workflow")
 defaults = [
     {"trainer": "distributed_gan_trainer"},
     {"environment": "distributed_base"},
-    {"optimizer": "conv2D_v2"},
+    {"optimizer": "dense1D"},
     {"analysis": "distributed_base_analysis"},
     {"hydra/run": "scratch_run_dir"},
     "_self_",

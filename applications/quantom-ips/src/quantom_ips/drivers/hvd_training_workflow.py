@@ -20,11 +20,13 @@ from quantom_ips.envs.sample_transformers.identity import IdentitySampleTransfor
 from quantom_ips.envs.samplers.its_2d import InverseTransformSampler2D
 from quantom_ips.envs.samplers.loits_2d import LOInverseTransformSampler2D
 from quantom_ips.envs.theories.identity import IdentityTheory
+from quantom_ips.envs.theories.duke_and_owens_theory import DukeAndOwensTheory
 from quantom_ips.optimizers.proxy_optimizer import ProxyOptimizer
 from quantom_ips.optimizers.conv2dtranspose_optimizer import Conv2DTransposeOptimizer
 from quantom_ips.optimizers.conv2dtranspose_optimizer_v2 import (
     Conv2DTransposeOptimizerV2,
 )
+from quantom_ips.optimizers.dense1d_optimizer import Dense1DOptimizer
 from quantom_ips.trainers.hvd_gan_trainer import HVDGANTrainer
 from quantom_ips.envs.objectives.mlp_discriminator import MLPDiscriminator
 from quantom_ips.utils import list_registered_modules, make
@@ -35,7 +37,7 @@ logger = logging.getLogger("hvd_gan_training_workflow")
 defaults = [
     {"trainer": "hvd_gan"},
     {"environment": "hvd_base"},
-    {"optimizer": "conv2D_v2"},
+    {"optimizer": "dense1D"},
     {"analysis": "hvd_base_analysis"},
     {"hydra/run": "scratch_run_dir"},
     "_self_",

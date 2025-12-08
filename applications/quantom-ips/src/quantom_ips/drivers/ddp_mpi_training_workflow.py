@@ -31,7 +31,7 @@ logger = logging.getLogger("ddp_gan_mpi_training_workflow")
 defaults = [
     {"trainer": "ddp_gan"},
     {"environment": "ddp_base"},
-    {"optimizer": "conv2D_v2"},
+    {"optimizer": "dense1D"},
     {"analysis": "ddp_base_analysis"},
     "_self_",
 ]

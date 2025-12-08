@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH -J quantom-hvd-1node-4GPUperNode
+#SBATCH -J quantom-hvd-multinode_4G_4G
 #SBATCH -A HPCBIGDATA
 #SBATCH -p a30_normal_q
-#SBATCH -N 1
+#SBATCH -N 2
 #SBATCH --ntasks-per-node=4    
 #SBATCH --gpus-per-node=4
-#SBATCH --cpus-per-task=16     
+#SBATCH --cpus-per-task=2     
 #SBATCH -t 10:00:00
 #SBATCH --output=outputs/slurm-%x-%j.out
 
@@ -21,6 +21,5 @@ module load OpenMPI
 
 DATA_PATH=${DATA_PATH:-applications/quantom-ips/data/data.npy}
 
-horovodrun -np $SLURM_GPUS_ON_NODE -H localhost:$SLURM_GPUS_ON_NODE \
-    python -m quantom_ips.drivers.hvd_training_workflow \
+srun --mpi=pmix_v3 python -m quantom_ips.drivers.hvd_training_workflow \
     "environment.parser.path=[${DATA_PATH}]"

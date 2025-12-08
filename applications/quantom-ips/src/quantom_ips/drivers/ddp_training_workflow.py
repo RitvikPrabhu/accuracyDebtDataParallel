@@ -25,6 +25,8 @@ from quantom_ips.optimizers.conv2dtranspose_optimizer import Conv2DTransposeOpti
 from quantom_ips.optimizers.conv2dtranspose_optimizer_v2 import (
     Conv2DTransposeOptimizerV2,
 )
+from quantom_ips.optimizers.dense1d_optimizer import Dense1DOptimizer
+from quantom_ips.envs.theories.duke_and_owens_theory import DukeAndOwensTheory
 from quantom_ips.trainers.ddp_gan_trainer import DDPGANTrainer
 from quantom_ips.envs.objectives.mlp_discriminator import MLPDiscriminator
 from quantom_ips.utils import list_registered_modules, make
@@ -35,7 +37,7 @@ logger = logging.getLogger("ddp_gan_training_workflow")
 defaults = [
     {"trainer": "ddp_gan"},
     {"environment": "ddp_base"},
-    {"optimizer": "conv2D_v2"},
+    {"optimizer": "dense1D"},
     {"analysis": "ddp_base_analysis"},
     {"hydra/run": "scratch_run_dir"},
     "_self_",

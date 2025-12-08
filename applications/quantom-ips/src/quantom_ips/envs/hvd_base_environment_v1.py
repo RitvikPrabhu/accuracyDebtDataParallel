@@ -18,7 +18,7 @@ defaults = [
     {"event_filter": "identity"},
     {"experiment": "identity"},
     {"sampler": "LOITS_2D"},
-    {"theory": "identity"},
+    {"theory": "duke_and_owens"},
     {"preprocessor": "identity"},
     "_self_",
 ]
@@ -29,7 +29,7 @@ class HVDBaseEnvironmentDefaults:
     defaults: List[Any] = field(default_factory=lambda: defaults)
     id: str = "HVDBaseEnvironmentV1"
     loss_fn: str = "MSE"
-    n_samples: int = 100
+    n_samples: int = 100000
     label_noise: float = 0.0
     n_log_sad_bins: int = 100
 

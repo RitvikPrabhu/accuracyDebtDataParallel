@@ -7,13 +7,13 @@ from dataclasses import dataclass
 @dataclass
 class Proxy2DTheoryDefaults:
     id: str = "Proxy2DTheory"
-    a_min: list = field(default_factory=lambda: [0.0,0.0])
-    a_max: list = field(default_factory=lambda: [1.0,1.0])
+    a_min: list = field(default_factory=lambda: [0.0,0.0,0.0])
+    a_max: list = field(default_factory=lambda: [1.0,1.0,1.0])
     x_min: float = 0.001
     x_max: float = 0.999
     y_min: float = 0.001
     y_max: float = 0.999
-    ratios: list = field(default_factory=lambda: [0.9,0.75])
+    ratios: list = field(default_factory=lambda: [0.78,0.65,0.87])
     average: bool = True
 
 @register_with_hydra(
@@ -47,6 +47,7 @@ class Proxy2DTheory:
     # Build a linear combination between the input densities
     # *************************
     def linear_combination(self,A):
+        print(A.shape)
         A_0 = A[0]*(self.a_max[0] - self.a_min[0]) + self.a_min[0]
         A_1 = A[1]*(self.a_max[1] - self.a_min[1]) + self.a_min[1]
         combos = [
@@ -73,7 +74,7 @@ class Proxy2DTheory:
         x_axis = torch.linspace(self.x_min,self.x_max,n_points_x,device=self.devices,dtype=self.dtype)
         y_axis = torch.linspace(self.y_min,self.y_max,n_points_y,device=self.devices,dtype=self.dtype)
         axes = [x_axis,y_axis]
-
+        print("Inside forward function: ", A.shape)
         # Get the x-sections:
         x_secs = torch.vmap(self.linear_combination,in_dims=0)(A)
 

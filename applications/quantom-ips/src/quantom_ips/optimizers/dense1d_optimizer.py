@@ -65,7 +65,7 @@ class Dense1DOptimizerDefaults(TorchSequentialGeneratorDefaults):
                 "config": {
                     "bias": True,
                     "in_features": 128,
-                    "out_features": 10,
+                    "out_features": 200,
                 },
                 "weight_init": "xavier_normal",
                 "bias_init": "normal",
@@ -74,7 +74,7 @@ class Dense1DOptimizerDefaults(TorchSequentialGeneratorDefaults):
             "Unflatten": {
                 "index": 5,
                 "class": "Unflatten",
-                "config": {"dim": 1, "unflattened_size": [1, 10]},
+                "config": {"dim": 1, "unflattened_size": [2, 10, 10]},
             },
         }
     )

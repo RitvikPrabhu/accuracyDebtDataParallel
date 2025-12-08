@@ -43,8 +43,8 @@ class DistributedGANTrainerDefaults:
     disc_lr: float = 1e-4
     disc_beta_1: float = 0.5
     disc_beta_2: float = 0.999
-    batch_size: int = 1024
-    torch_device: str = "cpu"
+    batch_size: int = 1
+    torch_device: str = "cuda"
     generator_update_frequency: int = 1
     discriminator_update_frequency: int = 1
     enable_analysis: bool = True
@@ -335,6 +335,9 @@ class DistributedGANTrainer:
                 t_end = MPI.Wtime()
 
                 current_results["train_step_time"] = t_end - t_start
+                logger.info(
+                    " | ".join([f"Epoch: {epoch}"] + [f"{k}: {v}" for k, v in current_results.items()])
+                )
 
                 # Run online analysis, i.e. monitor all relevant metrics:
                 analysis.forward(

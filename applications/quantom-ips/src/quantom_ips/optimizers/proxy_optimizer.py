@@ -19,7 +19,7 @@ class ProxyOptimizer:
 
     def forward(self, n_solutions):
         solution = self.model.forward()
-        return solution.expand(n_solutions, -1, -1).unsqueeze(1)
+        return solution.expand(n_solutions, -1, -1, -1)
 
     def predict(self, x, batch_size=None):
         # This model doesn't take an input so we just call forward()
@@ -43,7 +43,7 @@ class ProxyOptimizerModel(torch.nn.Module):
 
         self.xx, self.yy = torch.meshgrid(self.x, self.y, indexing="ij")
 
-        data = 0.5 * torch.ones((1, 5), dtype=self.dtype, device=self.devices)
+        data = 0.5 * torch.ones((2, 5), dtype=self.dtype, device=self.devices)
         self.params = torch.nn.Parameter(data=data, requires_grad=True)
 
         self.p_min = torch.tensor(
@@ -65,5 +65,5 @@ class ProxyOptimizerModel(torch.nn.Module):
     def forward(self):
         p_scaled = (self.p_max - self.p_min) * self.params + self.p_min
         out = torch.vmap(lambda par: self.A(par, self.xx, self.yy), in_dims=0)(p_scaled)
-        #        print(out.shape)
+        print(out.shape)
         return out
