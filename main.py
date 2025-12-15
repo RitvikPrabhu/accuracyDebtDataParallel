@@ -62,7 +62,7 @@ def main():
         local_rank = int(os.environ.get("LOCAL_RANK", args.local_rank))
         args.local_rank = local_rank
         torch.cuda.set_device(local_rank)
-        dist.init_process_group(backend="nccl")
+        dist.init_process_group(backend="nccl", device_id=local_rank)
         set_seeds(42)
     else:
         set_seeds(42)
@@ -80,6 +80,8 @@ def main():
         trainer_serial.train(model, optimizer, criterion, args)
     elif args.backend == "ddp":
         trainer_ddp.train(model, optimizer, criterion, args)
+        if dist.is_initialized():
+            dist.destroy_process_group()
     elif args.backend == "hvd":
         trainer_hvd.train(model, optimizer, criterion, args)
 

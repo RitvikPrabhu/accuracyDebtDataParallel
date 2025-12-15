@@ -45,7 +45,7 @@ def get_datasets(data_root: str = None):
     return train_dataset, val_dataset
 
 
-def make_serial_dataloaders(batch_size: int, num_workers: int = 4):
+def make_serial_dataloaders(batch_size: int, num_workers: int = 0):
     train_dataset, val_dataset = get_datasets()
     train_loader = DataLoader(
         train_dataset,
