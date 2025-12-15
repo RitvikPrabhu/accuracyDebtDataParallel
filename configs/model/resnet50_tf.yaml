@@ -1,3 +1,0 @@
-target: resnet50_df
-num_classes: 10
-pretrained: false

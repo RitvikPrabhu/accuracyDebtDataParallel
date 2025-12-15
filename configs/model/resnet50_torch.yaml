@@ -1,3 +1,0 @@
-target: resnet50_torch
-num_classes: 10
-pretrained: false
