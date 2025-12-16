@@ -59,4 +59,4 @@ def train(model, optimizer, criterion, args):
             f"Train: acc={train_acc:.4f}, f1={train_f1:.4f}, ece={train_ece:.4f}  "
             f"Val: acc={val_acc:.4f}, f1={val_f1:.4f}, ece={val_ece:.4f}"
         )
-        # Confusion matrix is available as `confmat` if you want to save or inspect it.
+
