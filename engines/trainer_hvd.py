@@ -74,7 +74,7 @@ def train(model, optimizer, criterion, args):
             inputs = inputs.to(device, non_blocking=True)
             targets = targets.to(device, non_blocking=True)
 
-            optimizer.zero_grad(set_to_none=True)
+            optimizer.zero_grad()
             logits = model(inputs)
             loss = criterion(logits, targets)
             loss.backward()
