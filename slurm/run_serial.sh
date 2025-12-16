@@ -11,6 +11,13 @@
 
 set -euo pipefail
 
+module load Miniconda3
+source activate /home/ritvikp/.conda/envs/quantom/
+module load CUDA
+
+echo "Num GPUs per node: $SLURM_GPUS_PER_NODE"
+cd ..
+
 python main.py \
   --backend serial \
   --model convex_logreg \

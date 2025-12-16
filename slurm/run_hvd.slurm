@@ -1,15 +1,24 @@
 #!/bin/bash
-#SBATCH -J debug-hvd
-#SBATCH --nodes=2                # X nodes
-#SBATCH --ntasks-per-node=4      # Y GPUs per node
-#SBATCH --gres=gpu:4
-#SBATCH --cpus-per-task=4
-#SBATCH --time=02:00:00
-#SBATCH --output=outputs/hvd-%j.out
+#SBATCH -J hvd-1node-1GPUperNode-S1
+#SBATCH -A HPCBIGDATA
+#SBATCH -p a100_normal_q
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1    
+#SBATCH --gpus-per-node=1
+#SBATCH --cpus-per-task=16     
+#SBATCH -t 00:30:00
+#SBATCH --output=outputs/slurm-%x-%j.out
 
 set -euo pipefail
 
-srun --mpi=pmi2 \
+module load Miniconda3
+export OMP_NUM_THREADS=${OMP_NUM_THREADS:-4}
+source activate /home/ritvikp/.conda/envs/quantom/
+cd ..
+module load CUDA
+module load OpenMPI
+
+horovodrun -np $SLURM_GPUS_ON_NODE -H localhost:$SLURM_GPUS_ON_NODE \
   python main.py \
     --backend hvd \
     --model bn_cnn_debug \
