@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J hvd-1node-1GPUperNode-S1
+#SBATCH -J hvd-1node-1GPUperNode-W1
 #SBATCH -A HPCBIGDATA
 #SBATCH -p a100_normal_q
 #SBATCH -N 1
@@ -21,7 +21,7 @@ module load OpenMPI
 horovodrun -np $SLURM_GPUS_ON_NODE -H localhost:$SLURM_GPUS_ON_NODE \
   python main.py \
     --backend hvd \
-    --model bn_cnn_debug \
+    --model convex_logreg \
     --batch-size 32 \
-    --lr 0.08 \
-    --epochs 10
+    --lr 0.01 \
+    --epochs 50
